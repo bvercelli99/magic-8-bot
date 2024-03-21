@@ -1,0 +1,21 @@
+{
+  "name": "magic-8-bot",
+  "version": "1.0.1",
+  "description": "A slackbot to input and randomly post a daily message",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@slack/bolt": "^3.17.1",
+    "@slack/events-api": "^3.0.1",
+    "@slack/web-api": "^7.0.2",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "pg": "^8.11.3"
+  }
+}
