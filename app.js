@@ -31,11 +31,7 @@ let holidays = [];
   const holidaysJson = fs.readFileSync(process.env.HOLIDAYS_JSON);
   holidays = JSON.parse(holidaysJson);
 
-  const genQuestion = await db.getGeneralItem();
-  console.log(genQuestion);
-
-  //setupIntervalForMessagingRandom();
-  checkToNotifyRandomUsers();
+  setupIntervalForMessagingRandom();
   setupIntervalForMessagingGeneral();
 
 })();
@@ -323,7 +319,7 @@ function getWelcomeBlocksForUser(slackId, didSumbit) {
           "elements": [
             {
               "type": "text",
-              "text": "Be sure to keep all questions and images work appropiate.\n"
+              "text": "Be sure to keep all questions and images work appropriate.\n"
             }
           ]
         }
@@ -517,9 +513,9 @@ async function checkToNotifyRandomUsers() {
 function setupIntervalForMessagingRandom() {
   //get current time at server startup...
   const now = new Date();
-  let msgStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), process.env.RANDOM_MESSAGE_HOUR || 10, 0, 0, 0);
+  let msgTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), process.env.RANDOM_MESSAGE_HOUR || 10, 0, 0, 0);
 
-  if (msgStart - now < 0) { //we're past start & end times on server startup so set it up for tomorrow
+  if (msgTime - now < 0) { //we're past start & end times on server startup so set it up for tomorrow
     msgTime.setDate(msgTime.getDate() + 1);
   }
   console.log('notify random users in: ' + ((((msgTime - now) / 1000) / 60) / 60) + " hours");
