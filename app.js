@@ -32,9 +32,10 @@ let holidays = [];
   holidays = JSON.parse(holidaysJson);
 
   let now = new Date();
+
   console.log(process.env.GENERAL_MESSAGE_DAY);
   console.log("isTodayHoliday: ", isTodayHoliday());
-  console.log("isTodayGeneralMessageDay: ", now.getDay() === process.env.GENERAL_MESSAGE_DAY || 3);
+  console.log("isTodayGeneralMessageDay: ", now.getDay() === (process.env.GENERAL_MESSAGE_DAY ? process.env.GENERAL_MESSAGE_DAY : 3));
 
 
   setupIntervalForMessagingRandom();
@@ -402,7 +403,7 @@ async function checkToNotifyGeneralUsers() {
   setTimeout(checkToNotifyGeneralUsers, 1000 * 60 * 60 * 24); //call this again in exactly one day from now...
 
   try {
-    if (!isTodayHoliday() && now.getDay() === process.env.GENERAL_MESSAGE_DAY || 3) { //it's not a holiday and it's the requested day for msg the general channel
+    if (!isTodayHoliday() && now.getDay() === (process.env.GENERAL_MESSAGE_DAY ? process.env.GENERAL_MESSAGE_DAY : 3)) { //it's not a holiday and it's the requested day for msg the general channel
       const genQuestion = await db.getGeneralItem();
       if (genQuestion) {
         console.log(genQuestion);
