@@ -1,5 +1,5 @@
 require('dotenv').config({ path: __dirname + '/.env' })
-const { App } = require("@slack/bolt");
+const { App, LogLevel } = require("@slack/bolt");
 const db = require('./db.js');
 const fs = require('fs');
 
@@ -7,7 +7,7 @@ const app = new App({
   token: process.env.BOT_TOKEN,
   signingSecret: process.env.SIGNING_SECRET,
   appToken: process.env.SLACK_APP_TOKEN,
-  logLevel: 'debug',
+  logLevel: LogLevel.WARN,
   socketMode: true
 });
 const random_channel = process.env.RANDOM_CHANNEL;
@@ -31,23 +31,14 @@ let holidays = [];
   const holidaysJson = fs.readFileSync(process.env.HOLIDAYS_JSON);
   holidays = JSON.parse(holidaysJson);
 
-  let now = new Date();
-
-  console.log(process.env.GENERAL_MESSAGE_DAY);
-  console.log("isTodayHoliday: ", isTodayHoliday());
-  console.log("isTodayGeneralMessageDay: ", now.getDay() === (process.env.GENERAL_MESSAGE_DAY ? process.env.GENERAL_MESSAGE_DAY : 3));
-
-
   setupIntervalForMessagingRandom();
   setupIntervalForMessagingGeneral();
-
 })();
 
 
 app.event('app_home_opened', async ({ event, client, body, context, logger }) => {
   try {
     await refreshHomeViewForUser(false, client, event.user, logger);
-    console.log(event);
   }
   catch (error) {
     console.error(error);
@@ -92,7 +83,6 @@ app.view('view_submitimage', async ({ ack, body, view, client, logger }) => {
         token: process.env.USER_TOKEN
       });
       //add to db
-      console.log(result.file);
       const itemId = await db.addItemForSlackUser(body.user.id, result.file.permalink_public, ITEM_TYPE.MEDIA, DELIVERY_TYPE.RANDOM, img.id)
 
       await refreshHomeViewForUser(true, client, body.user.id, logger);
@@ -200,7 +190,6 @@ app.action('actionId-question', async ({ ack, action, client, body, logger }) =>
 
 app.action('actionId-image', async ({ ack, action, client, body, logger }) => {
   try {
-    console.log('ADD ITEM');
     await ack();
 
     const result = await client.views.open({
@@ -406,7 +395,7 @@ async function checkToNotifyGeneralUsers() {
     if (!isTodayHoliday() && now.getDay() === (process.env.GENERAL_MESSAGE_DAY ? process.env.GENERAL_MESSAGE_DAY : 3)) { //it's not a holiday and it's the requested day for msg the general channel
       const genQuestion = await db.getGeneralItem();
       if (genQuestion) {
-        console.log(genQuestion);
+
         await app.client.chat.postMessage({
           channel: general_channel,
           blocks: [
