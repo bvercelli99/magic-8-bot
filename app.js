@@ -31,6 +31,11 @@ let holidays = [];
   const holidaysJson = fs.readFileSync(process.env.HOLIDAYS_JSON);
   holidays = JSON.parse(holidaysJson);
 
+  console.log(process.env.GENERAL_MESSAGE_DAY);
+  console.log("isTodayHoliday: ", isTodayHoliday());
+  console.log("isTodayGeneralMessageDay: ", now.getDay() === process.env.GENERAL_MESSAGE_DAY || 3);
+
+
   setupIntervalForMessagingRandom();
   setupIntervalForMessagingGeneral();
 
