@@ -1,6 +1,6 @@
 {
   "name": "magic-8-bot",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A slackbot to input and randomly post a daily message",
   "main": "app.js",
   "scripts": {

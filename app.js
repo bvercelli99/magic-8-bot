@@ -26,7 +26,7 @@ let holidays = [];
 (async () => {
   // Start your app
   await app.start(process.env.PORT || 3000);
-  console.log('⚡️ Bolt app is running! v.1.0.2');
+  console.log('⚡️ Bolt app is running! v.1.0.3');
 
   const holidaysJson = fs.readFileSync(process.env.HOLIDAYS_JSON);
   holidays = JSON.parse(holidaysJson);
