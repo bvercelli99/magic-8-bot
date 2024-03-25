@@ -26,7 +26,7 @@ let holidays = [];
 (async () => {
   // Start your app
   await app.start(process.env.PORT || 3000);
-  console.log('⚡️ Bolt app is running!');
+  console.log('⚡️ Bolt app is running! v.1.0.2');
 
   const holidaysJson = fs.readFileSync(process.env.HOLIDAYS_JSON);
   holidays = JSON.parse(holidaysJson);
@@ -396,7 +396,7 @@ async function checkToNotifyGeneralUsers() {
   setTimeout(checkToNotifyGeneralUsers, 1000 * 60 * 60 * 24); //call this again in exactly one day from now...
 
   try {
-    if (!isTodayHoliday() && now.getDay() == process.env.GENERAL_MESSAGE_DAY || 3) { //it's not a holiday and it's the requested day for msg the general channel
+    if (!isTodayHoliday() && now.getDay() === process.env.GENERAL_MESSAGE_DAY || 3) { //it's not a holiday and it's the requested day for msg the general channel
       const genQuestion = await db.getGeneralItem();
       if (genQuestion) {
         console.log(genQuestion);
