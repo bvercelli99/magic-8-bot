@@ -26,7 +26,7 @@ let holidays = [];
 (async () => {
   // Start your app
   await app.start(process.env.PORT || 3000);
-  console.log('⚡️ Bolt app is running! v.1.0.4');
+  console.log('⚡️ Bolt app is running! v.1.0.5');
 
   const holidaysJson = fs.readFileSync(process.env.HOLIDAYS_JSON);
   holidays = JSON.parse(holidaysJson);
@@ -144,16 +144,16 @@ app.action('actionId-question', async ({ ack, action, client, body, logger }) =>
               "initial_option": {
                 "text": {
                   "type": "plain_text",
-                  "text": "Weekly",
+                  "text": "Random (Random Channel)",
                   "emoji": true
                 },
-                "value": "weekly"
+                "value": "random"
               },
               "options": [
                 {
                   "text": {
                     "type": "plain_text",
-                    "text": "Random",
+                    "text": "Random (Random Channel)",
                     "emoji": true
                   },
                   "value": "random"
@@ -161,7 +161,7 @@ app.action('actionId-question', async ({ ack, action, client, body, logger }) =>
                 {
                   "text": {
                     "type": "plain_text",
-                    "text": "Weekly",
+                    "text": "Weekly (General Channel)",
                     "emoji": true
                   },
                   "value": "weekly"
