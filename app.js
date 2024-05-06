@@ -26,7 +26,7 @@ let holidays = [];
 (async () => {
   // Start your app
   await app.start(process.env.PORT || 3000);
-  console.log('⚡️ Bolt app is running! v.1.0.5');
+  console.log('⚡️ Bolt app is running! v.1.0.6');
 
   const holidaysJson = fs.readFileSync(process.env.HOLIDAYS_JSON);
   holidays = JSON.parse(holidaysJson);
@@ -440,10 +440,11 @@ async function checkToNotifyGeneralUsers() {
 async function checkToNotifyRandomUsers() {
 
   const now = new Date();
+  const validRandomDays = process.env.RANDOM_DAYS.split(",").map(m => parseInt(m));
   setTimeout(checkToNotifyRandomUsers, 1000 * 60 * 60 * 24); //call this again in exactly one day from now...
 
   try {
-    if (!isTodayHolidayOrWeekend()) { //it's not a holiday or weekend
+    if (!isTodayHolidayOrWeekend() && -1 != validRandomDays.indexOf(now.getDay())) { //it's not a holiday or weekend and it's a valid day for random messages
       const randomItem = await db.getRandomItem();
 
       if (randomItem) {
